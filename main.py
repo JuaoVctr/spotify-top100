@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Configurações
 CLIENT_ID = 'ef2a91da16e14ac29e7621c420b52fbf'  # Substitua pelo seu Client ID
 CLIENT_SECRET = 'ca14152919c0459a8690697148872b3b'  # Substitua pelo seu Client Secret
-REDIRECT_URI = 'https://spotify-top100.onrender.com/callback'  # Altere para o URL do Render
+REDIRECT_URI = 'https://spotify-top100.onrender.com/'  # Altere para o URL do Render
 
 # Autenticação
 sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
@@ -38,4 +38,4 @@ def callback():
     return f"Playlist criada com sucesso! <a href='{playlist['external_urls']['spotify']}'>Acesse aqui</a>."
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(host='0.0.0.0', port=10000, debug=False)
