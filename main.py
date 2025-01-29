@@ -38,4 +38,4 @@ def callback():
     return f"Playlist criada com sucesso! <a href='{playlist['external_urls']['spotify']}'>Acesse aqui</a>."
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
