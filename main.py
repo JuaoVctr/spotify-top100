@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Configurações
 CLIENT_ID = 'ef2a91da16e14ac29e7621c420b52fbf'  # Substitua pelo seu Client ID
 CLIENT_SECRET = 'ca14152919c0459a8690697148872b3b'  # Substitua pelo seu Client Secret
-REDIRECT_URI = 'https://sua-aplicacao.onrender.com/callback'  # Altere para o URL do Render
+REDIRECT_URI = 'https://spotify-top100.onrender.com'  # Altere para o URL do Render
 
 # Autenticação
 sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
