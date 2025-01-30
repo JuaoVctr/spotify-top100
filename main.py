@@ -21,9 +21,13 @@ sp_oauth = SpotifyOAuth(client_id=CLIENT_ID,
 
 @app.route('/')
 def index():
-    auth_url = sp_oauth.get_authorize_url()
-    app.logger.debug(f"URL de autorização: {auth_url}")
-    return redirect(auth_url)
+    try:
+        auth_url = sp_oauth.get_authorize_url()
+        app.logger.debug(f"URL de autorização: {auth_url}")
+        return redirect(auth_url)
+    except Exception as e:
+        app.logger.error(f"Erro na rota /: {e}")
+        return "Erro ao gerar URL de autorização. Verifique os logs.", 500
 
 @app.route('/callback')
 def callback():
@@ -34,19 +38,20 @@ def callback():
         if not code:
             return "Erro: Código de autorização não recebido.", 400
 
+        # Obter o token de acesso
         token_info = sp_oauth.get_access_token(code)
         app.logger.debug(f"Token info: {token_info}")
 
         sp = spotipy.Spotify(auth=token_info['access_token'])
 
-        # Obter as 100 músicas mais ouvidas
-        top_tracks = sp.current_user_top_tracks(limit=100, time_range='long_term')['items']
+        # Obter as 50 músicas mais ouvidas (limite máximo permitido)
+        top_tracks = sp.current_user_top_tracks(limit=50, time_range='long_term')['items']
         track_uris = [track['uri'] for track in top_tracks]
         app.logger.debug(f"Top tracks: {track_uris}")
 
         # Criar a playlist
         user_id = sp.current_user()['id']
-        playlist = sp.user_playlist_create(user_id, "Minhas 100 Músicas Mais Ouvidas", public=True)
+        playlist = sp.user_playlist_create(user_id, "Minhas 50 Músicas Mais Ouvidas", public=True)
         sp.playlist_add_items(playlist['id'], track_uris)
         app.logger.debug(f"Playlist criada: {playlist['external_urls']['spotify']}")
 
